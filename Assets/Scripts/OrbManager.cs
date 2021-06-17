@@ -7,12 +7,17 @@ public class OrbManager : MonoBehaviour
     public bool stopRays;
     public float maxRayDistance = 100.0f;
     public GameObject[] orbs;
-    public GameObject square;
+    public GameObject[] squares0;
+    public GameObject[] squares1;
     public LayerMask collisionLayer = 1 << 10 ;
 
     void Start()
     {
-        square.SetActive(false);
+        for (int i = 0; i < squares0.Length; i++)
+        {
+            squares0[i].SetActive(false);
+            squares1[i].SetActive(false);
+        }
     }
 
     void Update()
@@ -31,8 +36,15 @@ public class OrbManager : MonoBehaviour
                     if (hit.transform.gameObject.name == orbs[k].name)
                     {
                         orbs[k].SetActive(false);
-                        square.SetActive(true);
-                        //if with reference to game manager to know wich object to reveal
+                        Debug.Log(GameObject.Find("GameManager").GetComponent<GameManager>().player_turn);
+                        if(GameObject.Find("GameManager").GetComponent<GameManager>().player_turn)
+                        {
+                            squares0[k].SetActive(true);
+                        }
+                        else
+                        {
+                            squares1[k].SetActive(true);
+                        }
                     }
                 }
             }
@@ -48,7 +60,15 @@ public class OrbManager : MonoBehaviour
                 {
                     if (hit.transform.gameObject == orbs[k])
                     {
-                        //TOCOPY
+                        orbs[k].SetActive(false);
+                        if(GameObject.Find("GameManager").GetComponent<GameManager>().player_turn)
+                        {
+                            squares0[k].SetActive(true);
+                        }
+                        else
+                        {
+                            squares1[k].SetActive(true);
+                        }
                     }
                 }
             }
