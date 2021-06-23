@@ -7,10 +7,12 @@ public class GameBoard : MonoBehaviour
 {
     public bool playerTurn; // value flip when turn change
     public bool isPlaying;
+    public int currentGridId;
+    public int gridId;
 
     public Button newGameButton;
-    /*public Draw draw;
-    public Victory victory;*/
+    public DrawEnding draw;
+    public VictoryEnding victory;
     public TicTacToeEngine engine = new TicTacToeEngine();
     public OrbManager orbManager;
 
@@ -21,43 +23,41 @@ public class GameBoard : MonoBehaviour
         //ya r
     }
 
-    public void initGame()
+    public void InitGame()
     {
         Debug.Log("initGame");
-        playerTurn = false; // first player is set
         newGameButton.interactable = false;
         isPlaying = true; //activate orbManager update
-        engine.NewGame();
-        orbManager.DisplayOrbs();
+        orbManager.InitOrbs();
+
+        //convention: player 1 = false & player 2 = true
+        playerTurn = false; // first player is set 
+        engine.NewGame(playerTurn);
+        gridId = -1;
+        currentGridId = gridId;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        GetInput(); //which orb is selected ?
-        engine.Place(2); //######## FIND INDEX
-    }
-
-    private void GetInput()
-    {
+        //toggle player turn
         if (Input.GetMouseButtonDown(0)) //detect touche / left click 
-        {
             playerTurn = !playerTurn;
-        }
+        
     }
 
-    private void WinCondition()
+    public void WinCondition()
     {
         var winner = engine.IsVictory();
-        if (winner == -1)
+        if (winner == -1) // This is when there is no winner
         {
-            //CatsGame(); // This is when there is no winner
-            //GetComponent<Animation
-            //GameObject.Find("gameBoard").GetComponent<gameBoard>().player_turn
+            EndOfGame();
+            draw.Show();
         }
         else
         {
-            //WinnerIs(winner - 1);
+            EndOfGame();
+            victory.Show((winner - 1).ToString());
             // because in engine.IsVictory returns 1 or 2 for the winner
         }
     }

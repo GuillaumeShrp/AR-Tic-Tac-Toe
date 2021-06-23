@@ -22,11 +22,13 @@ public class OrbManager : MonoBehaviour
         }
     }
 
-    public void DisplayOrbs()
+    public void InitOrbs()
     {
         for (int i = 0; i < squares0.Length; i++)
         {
             orbs[i].SetActive(true);
+            squares0[i].SetActive(false);
+            squares1[i].SetActive(false);
         }
     }
 
@@ -47,6 +49,9 @@ public class OrbManager : MonoBehaviour
                     {
                         if (hit.transform.gameObject.name == orbs[k].name)
                         {
+                            gameBoard.engine.Place(k);
+                            //gameBoard.ToggleRound();
+                            gameBoard.WinCondition();
                             orbs[k].SetActive(false);
                             Debug.Log(gameBoard.playerTurn);
                             if(gameBoard.playerTurn)
@@ -72,6 +77,8 @@ public class OrbManager : MonoBehaviour
                     {
                         if (hit.transform.gameObject == orbs[k])
                         {
+                            gameBoard.engine.Place(k); //update game logic
+                            //gameBoard.ToggleRound();
                             orbs[k].SetActive(false);
                             if (gameBoard.playerTurn)
                             {
