@@ -12,30 +12,33 @@ public class GameBoard : MonoBehaviour
     /*public Draw draw;
     public Victory victory;*/
     public TicTacToeEngine engine = new TicTacToeEngine();
+    public OrbManager orbManager;
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        initGame();
+        //ya r
     }
 
-    void initGame()
+    public void initGame()
     {
+        Debug.Log("initGame");
         playerTurn = false; // first player is set
         newGameButton.interactable = false;
         isPlaying = true; //activate orbManager update
         engine.NewGame();
+        orbManager.DisplayOrbs();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         GetInput(); //which orb is selected ?
         engine.Place(2); //######## FIND INDEX
     }
 
-    void GetInput()
+    private void GetInput()
     {
         if (Input.GetMouseButtonDown(0)) //detect touche / left click 
         {
@@ -43,7 +46,7 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    void WinCondition()
+    private void WinCondition()
     {
         var winner = engine.IsVictory();
         if (winner == -1)
@@ -59,5 +62,10 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    
+    private void EndOfGame()
+    {
+        // We enable the 'new game' button and disable all the cells
+        newGameButton.interactable = true;
+    }
+
 }

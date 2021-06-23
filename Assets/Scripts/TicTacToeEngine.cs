@@ -1,5 +1,4 @@
-﻿
-public class TicTacToeEngine
+﻿public class TicTacToeEngine
     {
         private int _currentPlayer = 1;
         private int[] _grid = new int[9];

@@ -12,16 +12,25 @@ public class OrbManager : MonoBehaviour
     public LayerMask collisionLayer = 1 << 10 ;
     public GameBoard gameBoard;
 
-    void Start()
+    private void Start()
     {
         for (int i = 0; i < squares0.Length; i++)
         {
+            orbs[i].SetActive(false);
             squares0[i].SetActive(false);
             squares1[i].SetActive(false);
         }
     }
 
-    void Update()
+    public void DisplayOrbs()
+    {
+        for (int i = 0; i < squares0.Length; i++)
+        {
+            orbs[i].SetActive(true);
+        }
+    }
+
+    private void Update()
     {
         if (gameBoard.isPlaying)
         {
