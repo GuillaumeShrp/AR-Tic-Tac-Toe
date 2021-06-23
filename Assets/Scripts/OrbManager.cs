@@ -10,6 +10,7 @@ public class OrbManager : MonoBehaviour
     public GameObject[] squares0;
     public GameObject[] squares1;
     public LayerMask collisionLayer = 1 << 10 ;
+    public GameBoard gameBoard;
 
     void Start()
     {
@@ -22,58 +23,60 @@ public class OrbManager : MonoBehaviour
 
     void Update()
     {
+        if (gameBoard.isPlaying)
+        {
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown (0)&&!stopRays) {
-            Debug.Log("ray casted");
-            Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, maxRayDistance, collisionLayer))
-            {
-            Debug.Log("orb selected");
-                for(int k = 0; k < orbs.Length; k++)
+            if (Input.GetMouseButtonDown (0)&&!stopRays) {
+                Debug.Log("ray casted");
+                Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, maxRayDistance, collisionLayer))
                 {
-                    if (hit.transform.gameObject.name == orbs[k].name)
+                Debug.Log("orb selected");
+                    for(int k = 0; k < orbs.Length; k++)
                     {
-                        orbs[k].SetActive(false);
-                        Debug.Log(GameObject.Find("GameManager").GetComponent<GameManager>().player_turn);
-                        if(GameObject.Find("GameManager").GetComponent<GameManager>().player_turn)
+                        if (hit.transform.gameObject.name == orbs[k].name)
                         {
-                            squares0[k].SetActive(true);
-                        }
-                        else
-                        {
-                            squares1[k].SetActive(true);
+                            orbs[k].SetActive(false);
+                            Debug.Log(gameBoard.playerTurn);
+                            if(gameBoard.playerTurn)
+                            {
+                                squares0[k].SetActive(true);
+                            }
+                            else
+                            {
+                                squares1[k].SetActive(true);
+                            }
                         }
                     }
                 }
             }
-        }
 #else
-        if (Input.touchCount > 0 && !stopRays)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(Input.touchCount - 1).position);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, maxRayDistance, collisionLayer))
+            if (Input.touchCount > 0 && !stopRays)
             {
-                for (int k = 0; k < orbs.Length; k++)
+                Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(Input.touchCount - 1).position);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, maxRayDistance, collisionLayer))
                 {
-                    if (hit.transform.gameObject == orbs[k])
+                    for (int k = 0; k < orbs.Length; k++)
                     {
-                        orbs[k].SetActive(false);
-                        if(GameObject.Find("GameManager").GetComponent<GameManager>().player_turn)
+                        if (hit.transform.gameObject == orbs[k])
                         {
-                            squares0[k].SetActive(true);
-                        }
-                        else
-                        {
-                            squares1[k].SetActive(true);
+                            orbs[k].SetActive(false);
+                            if (gameBoard.playerTurn)
+                            {
+                                squares0[k].SetActive(true);
+                            }
+                            else
+                            {
+                                squares1[k].SetActive(true);
+                            }
                         }
                     }
                 }
             }
-
         }
 #endif
     }
-}
+}}
