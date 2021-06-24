@@ -14,7 +14,7 @@ public class GameBoard : MonoBehaviour
     public DrawEnding draw;
     public VictoryEnding victory;
     public TicTacToeEngine engine = new TicTacToeEngine();
-    public OrbManager orbManager;
+    public OrbManager orbManager; 
 
 
     // Start is called before the first frame update
@@ -45,22 +45,28 @@ public class GameBoard : MonoBehaviour
             playerTurn = !playerTurn;
         
     }
-
+    
     public void WinCondition()
     {
         var winner = engine.IsVictory();
         if (winner == -1) // This is when there is no winner
         {
             EndOfGame();
+            isPlaying = false;
+            Debug.Log("DrawEnding");
             draw.Show();
+            orbManager.Start();
         }
-        else
+        else if (winner > 0)
         {
             EndOfGame();
+            isPlaying = false;
+            Debug.Log("VictoryEnding");
             victory.Show((winner - 1).ToString());
             // because in engine.IsVictory returns 1 or 2 for the winner
+            orbManager.Start();
         }
-    }
+    }        
 
     private void EndOfGame()
     {

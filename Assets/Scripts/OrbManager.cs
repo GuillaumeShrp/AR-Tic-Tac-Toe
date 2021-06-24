@@ -12,7 +12,7 @@ public class OrbManager : MonoBehaviour
     public LayerMask collisionLayer = 1 << 10 ;
     public GameBoard gameBoard;
 
-    private void Start()
+    public void Start()
     {
         for (int i = 0; i < squares0.Length; i++)
         {
@@ -50,10 +50,8 @@ public class OrbManager : MonoBehaviour
                         if (hit.transform.gameObject.name == orbs[k].name)
                         {
                             gameBoard.engine.Place(k);
-                            //gameBoard.ToggleRound();
-                            gameBoard.WinCondition();
                             orbs[k].SetActive(false);
-                            Debug.Log(gameBoard.playerTurn);
+                            //Debug.Log(gameBoard.playerTurn);
                             if(gameBoard.playerTurn)
                             {
                                 squares0[k].SetActive(true);
@@ -62,6 +60,7 @@ public class OrbManager : MonoBehaviour
                             {
                                 squares1[k].SetActive(true);
                             }
+                            gameBoard.WinCondition();
                         }
                     }
                 }
@@ -78,7 +77,6 @@ public class OrbManager : MonoBehaviour
                         if (hit.transform.gameObject == orbs[k])
                         {
                             gameBoard.engine.Place(k); //update game logic
-                            //gameBoard.ToggleRound();
                             orbs[k].SetActive(false);
                             if (gameBoard.playerTurn)
                             {
@@ -88,6 +86,7 @@ public class OrbManager : MonoBehaviour
                             {
                                 squares1[k].SetActive(true);
                             }
+                            gameBoard.WinCondition();
                         }
                     }
                 }
