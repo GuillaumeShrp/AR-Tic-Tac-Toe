@@ -38,7 +38,8 @@ public class OrbManager : MonoBehaviour
         {
 
 #if UNITY_EDITOR
-            if (Input.GetMouseButtonDown (0)&&!stopRays) {
+            if (Input.GetMouseButtonDown (0)&&!stopRays) 
+            {
                 Debug.Log("ray casted");
                 Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
                 RaycastHit hit;
@@ -47,12 +48,17 @@ public class OrbManager : MonoBehaviour
                 Debug.Log("orb selected");
                     for(int k = 0; k < orbs.Length; k++)
                     {
-                        if (hit.transform.gameObject.name == orbs[k].name)
+                        if (hit.transform.gameObject == orbs[k])
                         {
-                            gameBoard.engine.Place(k);
+                            gameBoard.engine.Place(k); //update game logic
                             orbs[k].SetActive(false);
-                            //Debug.Log(gameBoard.playerTurn);
-                            if(gameBoard.playerTurn)
+
+                            //info cube display
+                            gameBoard.misakiCube.SetActive(!gameBoard.playerTurn);
+                            gameBoard.utcCube.SetActive(gameBoard.playerTurn);
+
+                            //display corresponding pawn
+                            if (gameBoard.playerTurn)
                             {
                                 squares0[k].SetActive(true);
                             }
@@ -60,6 +66,8 @@ public class OrbManager : MonoBehaviour
                             {
                                 squares1[k].SetActive(true);
                             }
+
+                            gameBoard.playerTurn = !gameBoard.playerTurn;
                             gameBoard.WinCondition();
                         }
                     }
@@ -78,6 +86,12 @@ public class OrbManager : MonoBehaviour
                         {
                             gameBoard.engine.Place(k); //update game logic
                             orbs[k].SetActive(false);
+
+                            //info cube display
+                            gameBoard.misakiCube.SetActive(!gameBoard.playerTurn);
+                            gameBoard.utcCube.SetActive(gameBoard.playerTurn);
+
+                            //display corresponding pawn
                             if (gameBoard.playerTurn)
                             {
                                 squares0[k].SetActive(true);
@@ -86,6 +100,8 @@ public class OrbManager : MonoBehaviour
                             {
                                 squares1[k].SetActive(true);
                             }
+
+                            gameBoard.playerTurn = !gameBoard.playerTurn;
                             gameBoard.WinCondition();
                         }
                     }
