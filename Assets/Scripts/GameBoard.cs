@@ -52,26 +52,24 @@ public class GameBoard : MonoBehaviour
         if (winner == -1) // This is when there is no winner
         {
             EndOfGame();
-            isPlaying = false;
             Debug.Log("DrawEnding");
             draw.Show();
-            orbManager.Start();
         }
         else if (winner > 0)
         {
             EndOfGame();
-            isPlaying = false;
             Debug.Log("VictoryEnding");
-            victory.Show((winner - 1).ToString());
+            victory.Show("Player " + (winner).ToString());
             // because in engine.IsVictory returns 1 or 2 for the winner
-            orbManager.Start();
         }
     }        
 
     private void EndOfGame()
     {
         // We enable the 'new game' button and disable all the cells
+        isPlaying = false;
         newGameButton.interactable = true;
+        orbManager.Start();
     }
 
 }
