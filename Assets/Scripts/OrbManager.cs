@@ -37,6 +37,11 @@ public class OrbManager : MonoBehaviour
         if (gameBoard.isPlaying)
         {
 
+/*CAUTION !!!!!!
+ * when building apk with unity comment 
+ * the grey section below and remove and "}" at the end!
+ */
+
 #if UNITY_EDITOR
             if (Input.GetMouseButtonDown (0)&&!stopRays) 
             {
