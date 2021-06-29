@@ -9,13 +9,17 @@ public class GameBoard : MonoBehaviour
     public bool isPlaying;
     public int currentGridId;
     public int gridId;
+    public int scoreMisaki;
+    public int scoreUtc;
 
     public DrawEnding draw;
     public VictoryEnding victory;
-    public TicTacToeEngine engine = new TicTacToeEngine();
+    public TicTacToeEngine engine;
     public OrbManager orbManager;
-    public MisakiBehavior misakiBehavior;
-    public UtcBehavior utcBehavior;
+    public CharacterBehavior misakiBehavior;
+    public CharacterBehavior misakiSantaBehavior;
+    public CharacterBehavior utcBehavior;
+    public CharacterBehavior utcSantaBehavior;
     public GameObject misakiCube;
     public GameObject utcCube;
 
@@ -23,7 +27,11 @@ public class GameBoard : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //ya r
+        engine = new TicTacToeEngine();
+        scoreMisaki = 0;
+        scoreUtc = 0;
+        misakiBehavior.UpdateScore(scoreMisaki);
+        utcBehavior.UpdateScore(scoreUtc);
     }
 
     public void InitGame()
@@ -40,16 +48,6 @@ public class GameBoard : MonoBehaviour
 
         misakiCube.SetActive(playerTurn);
         utcCube.SetActive(!playerTurn);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        //toggle player turn
-        /*if (Input.GetMouseButtonDown(0) && isPlaying) //detect touche / left click 
-        {
-            playerTurn = !playerTurn;
-        }*/
     }
     
     public void WinCondition()
@@ -77,13 +75,20 @@ public class GameBoard : MonoBehaviour
         {
             victory.Show("Misaki's victory", id);
             misakiBehavior.Win();
+            misakiSantaBehavior.Win();
             utcBehavior.Loose();
+            utcSantaBehavior.Loose();
+            misakiBehavior.UpdateScore(++scoreMisaki);
+            misakiSantaBehavior.UpdateScore(++scoreMisaki);
         }
         else
         {
             victory.Show("Unity-chan's victory", id);
             misakiBehavior.Loose();
+            misakiSantaBehavior.Loose();
             utcBehavior.Win();
+            utcBehavior.UpdateScore(++scoreUtc);
+            utcSantaBehavior.UpdateScore(++scoreUtc);
         }
     }
 
@@ -91,8 +96,8 @@ public class GameBoard : MonoBehaviour
     {
         // We enable the 'new game' button and disable all the cells
         isPlaying = false;
-        misakiCube.SetActive(false);
-        utcCube.SetActive(false);
+        misakiCube.SetActive(true);
+        utcCube.SetActive(true);
         orbManager.Start();
     }
 

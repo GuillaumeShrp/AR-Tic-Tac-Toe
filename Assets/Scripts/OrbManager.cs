@@ -52,7 +52,7 @@ public class OrbManager : MonoBehaviour
                         {
                             gameBoard.engine.Place(k); //update game logic
                             orbs[k].SetActive(false);
-
+                            
                             //info cube display
                             gameBoard.misakiCube.SetActive(!gameBoard.playerTurn);
                             gameBoard.utcCube.SetActive(gameBoard.playerTurn);
