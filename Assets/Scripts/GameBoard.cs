@@ -9,19 +9,22 @@ public class GameBoard : MonoBehaviour
     public bool isPlaying;
     public int currentGridId;
     public int gridId;
-    public int scoreMisaki;
+    public int scoreMisaki; 
     public int scoreUtc;
 
     public DrawEnding draw;
     public VictoryEnding victory;
     public TicTacToeEngine engine;
     public OrbManager orbManager;
+
     public CharacterBehavior misakiBehavior;
     public CharacterBehavior misakiSantaBehavior;
     public CharacterBehavior utcBehavior;
     public CharacterBehavior utcSantaBehavior;
     public GameObject misakiCube;
     public GameObject utcCube;
+    public TMPro.TextMeshPro misakiTextScore;
+    public TMPro.TextMeshPro utcTextScore;
 
 
     // Start is called before the first frame update
@@ -30,8 +33,8 @@ public class GameBoard : MonoBehaviour
         engine = new TicTacToeEngine();
         scoreMisaki = 0;
         scoreUtc = 0;
-        misakiBehavior.UpdateScore(scoreMisaki);
-        utcBehavior.UpdateScore(scoreUtc);
+        misakiTextScore.text = scoreMisaki.ToString();
+        utcTextScore.text = scoreUtc.ToString();
     }
 
     public void InitGame()
@@ -74,21 +77,22 @@ public class GameBoard : MonoBehaviour
         if (id == 0)
         {
             victory.Show("Misaki's victory", id);
+            misakiTextScore.text = (++scoreMisaki).ToString();
+
             misakiBehavior.Win();
             misakiSantaBehavior.Win();
             utcBehavior.Loose();
             utcSantaBehavior.Loose();
-            misakiBehavior.UpdateScore(++scoreMisaki);
-            misakiSantaBehavior.UpdateScore(++scoreMisaki);
         }
         else
         {
             victory.Show("Unity-chan's victory", id);
+            utcTextScore.text = (++scoreUtc).ToString();
+
             misakiBehavior.Loose();
             misakiSantaBehavior.Loose();
             utcBehavior.Win();
-            utcBehavior.UpdateScore(++scoreUtc);
-            utcSantaBehavior.UpdateScore(++scoreUtc);
+            utcSantaBehavior.Win();
         }
     }
 
