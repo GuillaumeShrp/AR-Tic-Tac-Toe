@@ -1,4 +1,4 @@
-# Mixed Reality Tic-Tac-Toe
+# Augmented Reality Tic-Tac-Toe
 _Engine : `Unity` with `Vuforia`_
 
 _Device specification :  at least `Android 10`_
